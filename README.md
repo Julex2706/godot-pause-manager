@@ -153,6 +153,8 @@ It means: **"Ignore the effective pause state for this node for now."**
 
 Therefore, the underlying pause reasons remain intact. This allows a node to temporarily operate without destroying the state that caused it to be paused. When the override is removed, the node is evaluated against its current pause reasons again.
 
+This is an intentional design constraint.
+
 ## Process Modes
 
 PauseManager uses Godot's `Node.process_mode` as the mechanism for applying selective pauses.
@@ -179,7 +181,7 @@ This is an intentional design constraint.
 
 When PauseManager first starts tracking a node, it records the node's current `process_mode`. That value becomes the node's **authored mode** for PauseManager.
 
-The recorded mode is stored internally and used as the source of truth when restoring the node's active state. If another system changes `node.process_mode` after PauseManager has started tracking the node, PauseManager does not adopt that new value as the authored mode.
+The recorded mode is stored internally and used as the source of truth when restoring the node's active state. If another system changes `node.process_mode` after PauseManager has started tracking the node, the new value will not be treated as the authored mode.
 
 This is an intentional ownership contract.
 
@@ -225,13 +227,17 @@ The primary extension point is `PauseType`. Add another enum value and follow th
 PauseType.X  →  pause_on_x
 ```
 
-The rest of the manager automatically uses the corresponding group. Additional project-specific behavior can be built around the public API without requiring participating gameplay nodes to know how PauseManager stores its state.
+The rest of the manager automatically uses the corresponding group. Additional project-specific behavior can be built around the public API without requiring participating gameplay nodes to know how PauseManager works.
 
 ## Requirements
 
 - Godot 4.x
 - GDScript
 - Autoload support
+
+## Feedback
+
+If you use this plugin in your project, I'd love to hear about your use case and how it worked for you. Your experience helps shape future improvements. Feel free to reach out with suggestions or ideas.
 
 ## License
 
