@@ -147,7 +147,7 @@ func is_type_active(type: PauseType) -> bool:
 	return _active_types.has(type)
 
 ## Returns whether the node is currently overridden by PauseManager.
-func is_overridden(node: Node) -> bool:
+func is_node_overridden(node: Node) -> bool:
 	return _overridden_nodes.has(node)
 
 # ---------------------------------------------------------------------------
